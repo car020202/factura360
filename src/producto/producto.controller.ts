@@ -17,29 +17,48 @@ export class ProductoController {
   constructor(private readonly productoService: ProductoService) {}
 
   @Post()
-  create(@Body() createProductoDto: CreateProductoDto) {
-    return this.productoService.create(createProductoDto);
+  async create(@Body() createProductoDto: CreateProductoDto) {
+    const producto = await this.productoService.create(createProductoDto);
+    return {
+      message: 'Producto created successfully',
+      data: producto,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.productoService.findAll();
+  async findAll() {
+    const productos = await this.productoService.findAll();
+    return {
+      message: 'Productos retrieved successfully',
+      data: productos,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productoService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const producto = await this.productoService.findOne(+id);
+    return {
+      message: 'Producto retrieved successfully',
+      data: producto,
+    };
   }
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateProductoDto: CreateProductoDto,
   ) {
-    return this.productoService.update(+id, updateProductoDto);
+    const producto = await this.productoService.update(+id, updateProductoDto);
+    return {
+      message: 'Producto updated successfully',
+      data: producto,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productoService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.productoService.remove(+id);
+    return {
+      message: 'Producto removed successfully',
+    };
   }
 }

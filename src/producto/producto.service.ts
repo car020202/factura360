@@ -7,27 +7,27 @@ import { CreateProductoDto } from './DTO/create-producto.dto';
 export class ProductoService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreateProductoDto) {
+  async create(data: CreateProductoDto) {
     return this.prisma.producto.create({
       data,
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.producto.findMany();
   }
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.producto.findUnique({
       where: { id_producto: id },
     });
   }
-  update(id: number, data: Prisma.ProductoUpdateInput) {
+  async update(id: number, data: Prisma.ProductoUpdateInput) {
     return this.prisma.producto.update({
       where: { id_producto: id },
       data,
     });
   }
-  remove(id: number) {
+  async remove(id: number) {
     return this.prisma.producto.delete({
       where: { id_producto: id },
     });
