@@ -1,11 +1,21 @@
-import { Body, Controller, Get, Param, Post, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { FacturaService } from './factura.service';
 import { CreateFacturaDto } from './DTO/create-factura.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('factura')
 export class FacturaController {
   constructor(private readonly facturaService: FacturaService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createFacturaDto: CreateFacturaDto) {
     return this.facturaService.create(createFacturaDto);

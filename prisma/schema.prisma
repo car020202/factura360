@@ -31,10 +31,12 @@ model Producto {
 
 model Factura {
   id_factura     Int              @id @default(autoincrement())
-  fecha_emision  DateTime         @default(now())
-  cliente        Cliente          @relation(fields: [cliente_id], references: [id_cliente])
   cliente_id     Int
+  cliente        Cliente          @relation(fields: [cliente_id], references: [id_cliente])
+  empleado_id    Int
+  empleado       Empleado         @relation(fields: [empleado_id], references: [id_empleado])
   total          Float
+  fecha_emision  DateTime         @default(now())
   detalles       DetalleFactura[]
 
   @@map("facturas")
@@ -50,4 +52,13 @@ model DetalleFactura {
   subtotal     Float
 
   @@map("detalle_factura")
+}
+
+model Empleado {
+  id_empleado Int       @id @default(autoincrement())
+  nombre      String
+  correo      String    @unique
+  password    String
+  rol         String
+  facturas    Factura[] // Relación uno a muchos: un empleado puede crear muchas facturas
 }

@@ -18,6 +18,10 @@ export class CreateFacturaDto {
   @IsNumber()
   cliente_id: number;
 
+  @ApiProperty()
+  @IsNumber()
+  empleado_id: number;
+
   @ApiProperty({ type: [CreateDetalleFacturaDto] })
   @IsArray()
   @ValidateNested({ each: true })

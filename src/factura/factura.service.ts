@@ -28,6 +28,7 @@ export class FacturaService {
     const factura = await this.prisma.factura.create({
       data: {
         cliente_id: createFacturaDto.cliente_id,
+        empleado_id: createFacturaDto.empleado_id,
         total,
         detalles: {
           create: detallesConSubtotal,
@@ -36,6 +37,7 @@ export class FacturaService {
       include: {
         detalles: true,
         cliente: true,
+        empleado: true,
       },
     });
 
