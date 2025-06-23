@@ -11,15 +11,18 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Factura 360 API')
-    .setDescription('API for managing invoices and related operations')
+    .setTitle('Factura360 API')
+    .setDescription('API para gestión de facturas')
     .setVersion('1.0')
-    .addTag('Factura360')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(3000);
 }
 bootstrap();

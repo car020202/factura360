@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { EmpleadoService } from './empleado.service';
 import { CreateEmpleadoDto } from './DTO/create-empledo.dto';
+import { UpdateEmpleadoDto } from './DTO/update-empleado.dto';
 
 @Controller('empleado')
 export class EmpleadoController {
@@ -15,6 +16,11 @@ export class EmpleadoController {
     };
   }
 
+  @Get()
+  async findAll() {
+    return this.empleadoService.findAll(); // Debe devolver un array de empleados
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const empleado = await this.empleadoService.findById(Number(id));
@@ -22,5 +28,13 @@ export class EmpleadoController {
       return { message: 'Empleado no encontrado' };
     }
     return empleado;
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateEmpleadoDto: UpdateEmpleadoDto,
+  ) {
+    return this.empleadoService.update(+id, updateEmpleadoDto);
   }
 }

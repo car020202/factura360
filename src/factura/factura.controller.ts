@@ -6,19 +6,26 @@ import {
   Post,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FacturaService } from './factura.service';
 import { CreateFacturaDto } from './DTO/create-factura.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@ApiTags('Factura')
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('factura')
 export class FacturaController {
   constructor(private readonly facturaService: FacturaService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createFacturaDto: CreateFacturaDto) {
-    return this.facturaService.create(createFacturaDto);
+  async create(@Body() dto: CreateFacturaDto, @Request() req) {
+    return this.facturaService.create({
+      ...dto,
+      empleado_id: req.user.id_empleado,
+    });
   }
 
   @Get()
